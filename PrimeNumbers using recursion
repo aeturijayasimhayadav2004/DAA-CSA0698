@@ -1,0 +1,37 @@
+#include <stdio.h>
+
+int isPrime(int num, int div) {
+    if (num < 2) {
+        return 0; // Not prime
+    }
+    if (div * div > num) {
+        return 1; // Prime
+    }
+    if (num % div == 0) {
+        return 0; // Not prime
+    }
+    return isPrime(num, div + 1); // Recursive call
+}
+
+void generatePrimes(int limit, int current) {
+    if (current > limit) {
+        return; // Base case
+    }
+    if (isPrime(current, 2)) {
+        printf("%d ", current);
+    }
+    generatePrimes(limit, current + 1); // Recursive call
+}
+
+int main() {
+    int limit;
+
+    printf("Enter the limit: ");
+    scanf("%d", &limit);
+
+    printf("Prime numbers up to %d: ", limit);
+    generatePrimes(limit, 2); // Start from the first prime number
+    printf("\n");
+
+    return 0;
+}
