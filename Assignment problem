@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <limits.h>
+#include <stdbool.h>
+
+#define N 4 // Number of workers/tasks
+
+int costMatrix[N][N] = {
+    {4, 2, 8, 6},
+    {2, 4, 6, 8},
+    {8, 6, 4, 2},
+    {6, 8, 2, 4}
+};
+
+int minCost = INT_MAX;
+int assigned[N];
+
+// Function to find the minimum cost assignment
+void assignmentProblem(int row, int currentCost, bool visited[]) {
+    if (row == N) {
+        if (currentCost < minCost) {
+            minCost = currentCost; // Update the minimum cost
+        }
+        return;
+    }
+
+    for (int col = 0; col < N; col++) {
+        if (!visited[col]) { // Check if the column is already assigned
+            visited[col] = true; // Mark the task as visited
+            assignmentProblem(row + 1, currentCost + costMatrix[row][col], visited);
+            visited[col] = false; // Backtrack
+        }
+    }
+}
+
+int main() {
+    bool visited[N] = {false}; // Array to track assigned tasks
+    assignmentProblem(0, 0, visited); // Start from the first row
+
+    printf("The minimum cost of assignment is: %d\n", minCost);
+    return 0;
+}
